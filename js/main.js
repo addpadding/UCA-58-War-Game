@@ -6,14 +6,22 @@ function Character(name, strenght, health) {
 
     this.attackBtn = document.querySelector(`#${this.name}-attack`)
     this.healthkBtn = document.querySelector(`#${this.name}-make-health`)
+    this.alive = document.querySelector(`#${this.name}-alive`)
     this.progress = document.querySelector(`.${this.name}-health span`)
 }
 
 Character.prototype.attack = function (opponent) {
-    opponent.health -= this.strenght;
-    opponent.progress.style.width = `${opponent.health}%`
+    if (opponent.health > 0) {
+        opponent.health -= this.strenght;
+        opponent.progress.style.width = `${opponent.health}%`
+    } else {
+        opponent.attackBtn.remove()
+        opponent.healthkBtn.remove()
+        opponent.alive.innerHTML = `${opponent.name} is died`
+    }
     console.log(opponent.health);
 };
+
 
 Character.prototype.status = function () {
     console.log(`Name: ${this.name}`);
@@ -39,7 +47,6 @@ let naruto = new Character("naruto", 10, 100);
 let sasuke = new Character("sasuke", 5, 100);
 
 console.log(sasuke)
-
 
 naruto.attackBtn.addEventListener("click", function () {
     naruto.attack(sasuke)
