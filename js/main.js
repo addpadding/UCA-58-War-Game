@@ -2,22 +2,24 @@ function Character(name, strenght, health) {
     this.name = name;
     this.strenght = strenght;
     this.health = health;
+    this.element = new UIElements(this.name)
+}
 
-
-    this.attackBtn = document.querySelector(`#${this.name}-attack`)
-    this.healthkBtn = document.querySelector(`#${this.name}-make-health`)
-    this.alive = document.querySelector(`#${this.name}-alive`)
-    this.progress = document.querySelector(`.${this.name}-health span`)
+function UIElements(name) {
+    this.attackBtn = document.querySelector(`#${name}-attack`)
+    this.healthkBtn = document.querySelector(`#${name}-make-health`)
+    this.alive = document.querySelector(`#${name}-alive`)
+    this.progress = document.querySelector(`.${name}-health span`)
 }
 
 Character.prototype.attack = function (opponent) {
     if (opponent.health > 0) {
         opponent.health -= this.strenght;
-        opponent.progress.style.width = `${opponent.health}%`
+        opponent.element.progress.style.width = `${opponent.health}%`
     } else {
-        opponent.attackBtn.remove()
-        opponent.healthkBtn.remove()
-        opponent.alive.innerHTML = `${opponent.name} is died`
+        opponent.element.attackBtn.remove()
+        opponent.element.healthkBtn.remove()
+        opponent.element.alive.innerHTML = `${opponent.name} is died`
     }
     console.log(opponent.health);
 };
@@ -33,7 +35,7 @@ Character.prototype.makeHealsh = function () {
 
     if (this.health < 100) {
         this.health += 10
-        this.progress.style.width = `${this.health}%`
+        this.element.progress.style.width = `${this.health}%`
     }
 
     if (this.health > 100) {
@@ -48,21 +50,21 @@ let sasuke = new Character("sasuke", 5, 100);
 
 console.log(sasuke)
 
-naruto.attackBtn.addEventListener("click", function () {
+naruto.element.attackBtn.addEventListener("click", function () {
     naruto.attack(sasuke)
 })
 
-sasuke.attackBtn.addEventListener("click", function () {
+sasuke.element.attackBtn.addEventListener("click", function () {
     sasuke.attack(naruto)
 })
 
 
 
 
-naruto.healthkBtn.addEventListener("click", function () {
+naruto.element.healthkBtn.addEventListener("click", function () {
     naruto.makeHealsh()
 })
 
-sasuke.healthkBtn.addEventListener("click", function () {
+sasuke.element.healthkBtn.addEventListener("click", function () {
     sasuke.makeHealsh()
 })
